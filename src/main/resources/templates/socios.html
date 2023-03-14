@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="ISO-8859-1">
+
+<title>Socios</title>
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		  integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+
+    <style type="text/css">
+
+        .col-md-1,
+        .col-md-2,
+        .col-md-6{
+            background-color: rgb(241, 232, 192);
+            color: #1a1a1a;
+            font-size: 33px;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 1px 1px rgb(217, 207, 151);
+        }
+        
+        .col-lg-12{
+            background-color: rgb(206, 193, 119);
+            color: #1a1a1a;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 1px;
+            text-shadow: 1px 1px rgb(183, 145, 13);
+        }
+        
+        .col-lg-8,
+        .col-lg-2{
+            background-color: rgb(217, 207, 151);
+            color: black;
+            font-size: 15px;
+            text-align: left;
+            margin-top: 1px;
+        }
+        
+        .col-sm-4,
+        .col-sm-2,
+        .col-sm-1{
+            background-color: rgb(217, 207, 151);
+            color: black;
+            font-size: 18px;
+            font-weight: ligth;
+            text-align: middle;
+            padding-top: 8px;
+        }
+        
+        .col-md-10{
+            background-color: white;
+            color: #1a1a1a;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: left;
+        }
+		
+		.col-7{
+            background-color: white;
+            color: #1a1a1a;
+            font-size: 20px;
+            font-weight: normal;
+            text-align: right;
+        }
+        
+        .col-8{
+            background-color: white;
+            color: #1a1a1a;
+            font-size: 20px;
+            font-weight: normal;
+            text-align: center;
+        }
+		
+		.col-4,
+		.col-2,
+		.col-1{
+            background-color: white;
+            color: #1a1a1a;
+            text-align: left;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        
+        .col-3{
+            background-color: white;
+            color: #1a1a1a;
+            text-align: left;
+            font-weight: normal;
+            margin-top: 10px;
+        }
+        
+        .col-md-3{
+            background-color: white;
+            color: #1a1a1a;
+            text-align: center;
+            font-weight: normal;
+            margin-top: 10px;
+        }
+        
+        .table{
+            background-color: rgb(253, 252, 244);
+            color: #1a1a1a;
+            font-size: 20px;
+            font-weight: normal;
+            text-align: center;
+        }
+        
+        .table thead {
+            background-color: rgb(206, 193, 119);
+            color: #1a1a1a;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+	</style>
+
+<body>
+
+<div class="container-fluid">
+
+   <header th:insert="~{fragments/cabecera.html :: cabecera}"></header>
+   <div class="row"><div class="col-lg-12">SOCIOS</div></div>	
+   <header th:insert="~{fragments/menuNav.html :: menuNav}"></header>
+
+   <div class="row">
+   
+      <div class="col-sm-1"></div>
+      
+      <div class="col-md-10 border border-secondary">
+      
+         <div class="row">
+            <div th:if="${alerta}" class="alert alert-danger" role="alert" th:text="${alerta}"></div>
+            <div th:if="${mensaje}" class="alert alert-success" role="alert" th:text="${mensaje}"></div>
+         </div>
+         
+         <div class="row">
+            <div class="col-4"></div>
+         </div>
+         
+         <div th:if="${editable == true}" class="container border border-warning">
+             <form th:action="@{/socios/guardar}" method="post" th:object="${socio}">
+                 <div class="row">
+                    <div class="col-4"><h3>Formulario de socio:</h3></div>
+                 </div>
+		
+		         <div class="row">
+			        <div class="col-3">
+				       <label for="id" class="form-label">Numero de socio</label>
+			        </div>
+		
+			        <div class="col-3">
+				       <label for="nombre" class="form-label">Nombre</label>
+			        </div>
+			
+			        <div class="col-3">
+				       <label for="apellidos" class="form-label">Apellidos</label>
+			        </div>	
+			        
+			        <div class="col-md-3">
+                       <input type="submit" value="Guardar" class="btn btn-success btn-lg">
+                    </div>
+				 </div>
+				 
+				 <div class="row">
+			        <div class="col-3">
+				       <div><input type="text" class="form-control sm" name="id" id="id" th:field="*{id}" placeholder="Automatico." readonly="readonly"></div>
+			        </div>
+		
+			        <div class="col-3">
+				       <div><input type="text" name="nombre" id="nombre" th:field="*{nombre}" placeholder="Nombre"></div>
+				       <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+			        </div>
+			
+			        <div class="col-3">
+				       <div><input type="text" name="apellidos" id="apellidos" th:field="*{apellidos}" placeholder="Apellidos"></div>
+				       <div th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"></div>
+			        </div>	
+
+				    <div class="col-md-3">
+                       <a type="reset" class="btn btn-secondary btn-lg" th:href="@{/socios}" role="button">Cancelar</a>
+                    </div>
+                    
+				 </div>
+		     </form>
+		     
+		 <div class="row">
+            <div class="col-4"></div>
+         </div>
+         
+		 </div>
+
+         <div th:unless="${editable == true}" class="container">
+            <div class="row">
+               <div class="col-4"><h3>Listado de socios:</h3></div>
+               <div class="col-7">
+                  <a type="button" class="btn btn-secondary btn-lg" th:href="@{/socios/alta}" role="button">Nuevo socio</a>
+               <div class="col-1"></div>
+               </div>
+            </div>
+         </div>
+            
+            <div class="row">
+               <div class="col-4"></div>
+            </div>
+            
+            <div class="row">
+               
+               <div th:if="${socios}" class="col-12">
+                  <table class="table border border-secondary">
+                       <thead class="border border-secondary">
+                             <tr>
+                                <th scope="col">Numero de socio</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellidos</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                             </tr>
+                       </thead>
+                       <tbody>
+                             <tr th:each="socio : ${socios}" >
+                               <td th:text="${socio.id}"></td>
+                               <td th:text="${socio.nombre}"></td>
+                               <td th:text="${socio.apellidos}"></td>
+                               <td><a type="button" class="btn btn-outline-warning" th:href="@{/socios/editar/{id} (id=${socio.id})}" role="button">EDITAR</a></td>
+                               <td><a type="button" class="btn btn-outline-danger" th:href="@{/socios/borrar/{id} (id=${socio.id})}" role="button">BORRAR</a></td>
+                             </tr>                                        
+                       </tbody>
+                  </table> 
+               </div>
+            </div>
+            
+            <div class="row">
+               <div class="col-4"></div>
+            </div>
+            
+         </div>
+      
+      <div class="col-sm-1"></div>
+    
+   </div>
+   
+ <footer th:insert="~{fragments/pie.html :: pie}"></footer>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+		    integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+		    crossorigin="anonymous">
+    </script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+		    integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+		    crossorigin="anonymous">
+	</script>
+   
+</body>
+</html>
